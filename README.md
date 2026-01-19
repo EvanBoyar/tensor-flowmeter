@@ -1,6 +1,6 @@
 # AI Water User
 
-A thought-provoking art project that makes AI resource consumption tangible by literally destroying water through electrolysis in proportion to the computational cost of AI interactions, powered by Claude.
+_MAKE_ AI resource consumption an actual issue by literally destroying water through electrolysis in proportion to the computational cost of AI interactions!
 
 ## 📚 Getting Started
 
