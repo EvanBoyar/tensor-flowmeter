@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Water User</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo">
+                    <div class="logo-main">AI Water User</div>
+                    <div class="logo-sub">powered by Claude</div>
+                </div>
+                <button id="newSessionBtn" class="new-session-btn">New Session</button>
+            </div>
+            <div class="header-right">
+                <div class="water-display">
+                    <div class="water-icon">💧</div>
+                    <div class="water-stats">
+                        <div class="water-label">Tensor Flow Meter</div>
+                        <div class="water-sublabel">Session Water Usage</div>
+                        <div class="water-value" id="waterValue">0.000000 µg</div>
+                    </div>
+                </div>
+                <button id="settingsBtn" class="settings-btn">⚙️</button>
+            </div>
+        </header>
+
+        <!-- Main Chat Area -->
+        <main class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-message">
+                    <h2>Welcome to AI Water User</h2>
+                    <p>This project makes AI resource consumption tangible by destroying water through electrolysis. Each AI response triggers a reaction proportional to the computational cost, literally turning invisible electricity usage into visible water loss.</p>
+                    <p><strong>To get started:</strong> Click the settings button (⚙️) and configure your Anthropic API key.</p>
+                    <p>Then start a conversation below and watch the Tensor Flow Meter as water is consumed in real-time.</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Input Area -->
+        <div class="input-container">
+            <div class="input-wrapper">
+                <textarea
+                    id="messageInput"
+                    placeholder="Send a message to Claude..."
+                    rows="1"
+                ></textarea>
+                <button id="sendBtn" class="send-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="input-info">
+                <span id="statusText">Ready</span>
+            </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div id="settingsPanel" class="settings-panel hidden">
+            <div class="settings-content">
+                <div class="settings-header">
+                    <h2>Settings</h2>
+                    <button id="closeSettingsBtn" class="close-btn">×</button>
+                </div>
+
+                <div class="settings-body">
+                    <!-- WiFi Settings -->
+                    <section class="settings-section">
+                        <h3>WiFi Configuration</h3>
+                        <div class="setting-item">
+                            <label for="wifiSSID">WiFi Network Name (SSID)</label>
+                            <input type="text" id="wifiSSID" placeholder="Your WiFi Network" value="">
+                            <small>Required for internet access to Anthropic API. Enter your home WiFi network name.</small>
+                        </div>
+                        <div class="setting-item">
+                            <label for="wifiPassword">WiFi Password</label>
+                            <input type="password" id="wifiPassword" placeholder="WiFi Password" value="">
+                            <small>Your WiFi network password. Device will connect automatically on next save.</small>
+                        </div>
+                    </section>
+
+                    <!-- API Settings -->
+                    <section class="settings-section">
+                        <h3>API Configuration</h3>
+                        <div class="setting-item">
+                            <label for="apiKey">Anthropic API Key</label>
+                            <input type="password" id="apiKey" placeholder="sk-ant-..." value="">
+                            <small>Required. Get your API key from <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a>. Starts with "sk-ant-"</small>
+                        </div>
+                        <div class="setting-item">
+                            <label for="modelName">Claude Model</label>
+                            <input type="text" id="modelName" placeholder="claude-3-haiku-20240307" value="claude-3-haiku-20240307">
+                            <small>Model to use. <button id="fetchModelsBtn" style="padding: 2px 8px; margin-left: 4px; cursor: pointer;">Fetch Available Models</button></small>
+                            <div id="modelsList" style="margin-top: 8px; font-size: 0.85rem; display: none;"></div>
+                        </div>
+                    </section>
+
+                    <!-- Electrolysis Parameters -->
+                    <section class="settings-section">
+                        <h3>Electrolysis Parameters</h3>
+
+                        <div class="setting-item">
+                            <label for="voltage">Applied Voltage (V)</label>
+                            <input type="number" id="voltage" step="0.1" min="0" value="5.0">
+                            <small>Voltage of your power supply. Typical range: 5V to 12V. Match your actual supply voltage.</small>
+                        </div>
+
+                        <div class="setting-item">
+                            <label for="vThreshold">Threshold Voltage (V_th)</label>
+                            <input type="number" id="vThreshold" step="0.1" min="0" value="2.0">
+                            <small>Minimum voltage for water electrolysis. Standard value: 2.0V. Rarely needs adjustment.</small>
+                        </div>
+
+                        <div class="setting-item">
+                            <label for="conductivity">Conductivity (σ, S/m)</label>
+                            <input type="number" id="conductivity" step="0.01" min="0" value="1.0">
+                            <small>Solution conductivity. Range: 0.5 to 2.0 S/m. 1.0 = moderate baking soda (1 tbsp/liter).</small>
+                        </div>
+
+                        <div class="setting-item">
+                            <label for="area">Electrode Area (A, cm²)</label>
+                            <input type="number" id="area" step="0.1" min="0" value="10.0">
+                            <small>Submerged area of one electrode. Measure width × height. Typical range: 5 to 50 cm².</small>
+                        </div>
+
+                        <div class="setting-item">
+                            <label for="gap">Electrode Gap (d, cm)</label>
+                            <input type="number" id="gap" step="0.1" min="0" value="2.0">
+                            <small>Distance between electrodes. Typical range: 1 to 5 cm. Smaller gap = more current.</small>
+                        </div>
+
+                        <div class="setting-item">
+                            <label for="safetyResistor">Safety Resistor (R, Ω)</label>
+                            <input type="number" id="safetyResistor" step="0.1" min="0" value="10.0">
+                            <small>Series resistor for short-circuit protection. Recommended: 10Ω for 5V, 22Ω for 12V. Minimum 2W rating.</small>
+                        </div>
+                    </section>
+
+                    <!-- Cost Scaling -->
+                    <section class="settings-section">
+                        <h3>Cost-to-Time Scaling</h3>
+
+                        <div class="setting-item">
+                            <label for="costPerSecond">Cost per Second ($/s)</label>
+                            <input type="number" id="costPerSecond" step="0.00001" min="0" max="0.01" value="0.00005">
+                            <small>Controls electrolysis duration (time = API_cost ÷ this_value). Lower values = longer runs. Range: 0.00001 to 0.01. Default: $0.00005/s.</small>
+                        </div>
+                    </section>
+
+                    <!-- Safety Limits -->
+                    <section class="settings-section">
+                        <h3>Safety Limits</h3>
+
+                        <div class="setting-item">
+                            <label for="maxDuration">Max Single Duration (s)</label>
+                            <input type="number" id="maxDuration" step="1" min="0" value="300">
+                            <small>Maximum time for one electrolysis event. Range: 10 to 600 seconds. Prevents overheating. Default: 300s (5 min).</small>
+                        </div>
+
+                        <div class="setting-item">
+                            <label for="maxWater">Max Water Per Session (g)</label>
+                            <input type="number" id="maxWater" step="1" min="0" value="100">
+                            <small>Maximum total water per session. Range: 10 to 500 grams. Prevents container depletion. Default: 100g.</small>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="settings-footer">
+                    <button id="saveSettingsBtn" class="save-btn">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>
