@@ -1,4 +1,4 @@
-# AI Water User
+# Tensor Flowmeter: AI Water User
 
 _MAKE_ AI resource consumption an actual issue by literally destroying water through electrolysis in proportion to the computational cost of AI interactions!
 
