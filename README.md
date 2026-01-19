@@ -268,6 +268,4 @@ This is an educational/art project. Use responsibly and at your own risk.
 
 ## About This Project
 
-**AI Water User** is meant to provoke thought about AI resource consumption. The physical destruction of water through electrolysis serves as a tangible metaphor for the invisible environmental cost of AI systems. The "Tensor Flow Meter" makes these abstract computational costs visible and visceral.
-
-**Remember:** Every interaction with AI has real-world costs in electricity, cooling, and infrastructure. This project transforms those hidden costs into something you can watch disappear in real-time.
+**Tensor Flowmeter** is meant to provoke thought about AI resource consumption. The physical destruction of water through electrolysis serves as a tangible metaphor for the invisible environmental cost of AI systems...which is minisucle.
